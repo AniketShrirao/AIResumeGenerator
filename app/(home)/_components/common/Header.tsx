@@ -13,13 +13,20 @@ import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { createClient } from '@/lib/supabase/client';
 import { User } from '@supabase/supabase-js';
+import { useRouter } from 'next/navigation';
 
 const Header = () => {
-  const { setTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
   const supabase = createClient();
+  const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const getUser = async () => {
@@ -45,31 +52,32 @@ const Header = () => {
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
-    window.location.href = '/';
+    router.push('/');
+    router.refresh();
   };
+
+  if (!mounted) {
+    return null;
+  }
 
   return (
     <div
       className="shadow-sm w-full sticky
-    top-0 bg-white dark:bg-gray-900 z-[9]
-        "
+    top-0 bg-white dark:bg-gray-900 z-[9]"
     >
       <div
         className="w-full mx-auto max-w-7xl
-        py-2 px-5 flex items-center justify-between
-        "
+        py-2 px-5 flex items-center justify-between"
       >
         <div
           className="flex items-center
-            flex-1 gap-9
-            "
+            flex-1 gap-9"
         >
           <div>
             <Link
               href="/dashboard"
               className="font-black text-[20px]
-                      text-primary
-                          "
+                      text-primary"
             >
               CVbuild.ai
             </Link>
@@ -118,8 +126,7 @@ const Header = () => {
           {isLoading || error ? (
             <Loader
               className="animate-spin !size-6 text-black
-          dark:text-white
-                      "
+          dark:text-white"
             />
           ) : (
             <Fragment>

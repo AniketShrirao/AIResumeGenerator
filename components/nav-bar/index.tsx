@@ -5,9 +5,11 @@ import { ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/lib/supabase/client";
+import { useRouter } from 'next/navigation';
 
 const NavBar = () => {
   const supabase = createClient();
+  const router = useRouter();
 
   const handleSignIn = async () => {
     await supabase.auth.signInWithOAuth({
@@ -20,7 +22,8 @@ const NavBar = () => {
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
-    window.location.href = '/';
+    router.push('/');
+    router.refresh();
   };
 
   return (

@@ -1,13 +1,13 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
+import { Button, ButtonProps } from '@/components/ui/button';
 import { createClient } from '@/lib/supabase/client';
 
-interface AuthButtonProps {
+interface AuthButtonProps extends Omit<ButtonProps, 'onClick'> {
   children: React.ReactNode;
 }
 
-export function AuthButton({ children }: AuthButtonProps) {
+export function AuthButton({ children, ...props }: AuthButtonProps) {
   const supabase = createClient();
 
   const handleSignIn = async () => {
@@ -24,7 +24,7 @@ export function AuthButton({ children }: AuthButtonProps) {
   };
 
   return (
-    <Button onClick={handleSignIn} variant="default">
+    <Button onClick={handleSignIn} {...props}>
       {children}
     </Button>
   );

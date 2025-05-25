@@ -1,19 +1,25 @@
-import React from "react";
-import { redirect } from "next/navigation";
+'use client';
+
+import React, { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import NavBar from "@/components/nav-bar";
-import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/supabase/client";
 
-const LandingLayout = async ({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) => {
-  const supabase = createServerSupabaseClient();
-  const { data: { session } } = await supabase.auth.getSession();
+const LandingLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
+  const router = useRouter();
+  const supabase = createClient();
 
-  if (session) {
-    redirect("/dashboard");
-  }
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        router.replace("/dashboard");
+      }
+    };
+    
+    checkSession();
+  }, [router, supabase.auth]);
+
   return (
     <div>
       <NavBar />

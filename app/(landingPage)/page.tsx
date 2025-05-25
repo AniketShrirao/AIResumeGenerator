@@ -3,19 +3,18 @@ import { Button } from "@/components/ui/button";
 
 import { ChevronRight, Video } from "lucide-react";
 import Image from "next/image";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "AI Resume Builder - Create Professional Resumes",
+  description: "Build professional resumes with our AI-powered resume builder. Create, customize, and share your resume with a shareable link."
+};
 
 export default function Home() {
   return (
     <div className="w-full">
       <div className="hero-section w-full min-h-screen">
         <div className="w-full flex flex-col items-center justify-center py-10 max-w-4xl mx-auto">
-          <div className="rounded-full flex items-center font- font-medium gap-1 text-sm h-auto p-2 bg-muted max-w-80">
-            <div className="p-2 h-5 shrink-0 flex items-center text-xs justify-center text-white bg-primary rounded-full">
-              New
-            </div>
-            Subscribe to Techwithemma
-            <ChevronRight className="w-4 h-4" />
-          </div>
 
           <div className="flex flex-col mt-5 items-center text-center">
             <h1 className="text-6xl font-black">
@@ -34,19 +33,13 @@ export default function Home() {
             </p>
             <br />
             <div className="flex items-center gap-2">
-              <Button className="h-12 text-base font-medium min-w-32" asChild>
-                <AuthButton>Get Started</AuthButton>
-              </Button>
-              <Button
-                variant="outline"
-                className="h-12  border-primary text-primary text-base font-medium min-w-32"
-                asChild
-              >
-                <a className="flex items-center gap-1">
-                  <Video size="17px" />
-                  Watch video
-                </a>
-              </Button>
+              <AuthButton className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-12 px-4 py-2 min-w-32">
+                Get Started
+              </AuthButton>
+              <a href="#" className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-12 px-4 py-2 min-w-32 text-primary">
+                <Video size="17px" />
+                Watch video
+              </a>
             </div>
           </div>
         </div>

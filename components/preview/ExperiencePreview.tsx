@@ -108,6 +108,9 @@ const ExperiencePreview: FC<PropsType> = ({ resumeInfo, isLoading }) => {
               rounded-lg 
               p-3 
               bg-white 
+            dark:bg-slate-950
+              hover:dark:bg-zinc-900
+              dark:text-white
               border 
               ${isDragging ? 'border-gray-300' : 'border-transparent'}
               transform-gpu
@@ -130,9 +133,9 @@ const ExperiencePreview: FC<PropsType> = ({ resumeInfo, isLoading }) => {
             </div>
             <div
               style={{ fontSize: "13px" }}
-              className="exp-preview leading-[14.6px]"
+              className="exp-preview dark:text-white leading-[14.6px]"
               dangerouslySetInnerHTML={{
-                __html: experience?.workSummary || "",
+                __html: experience?.workSummary?.replace(/(style=".+?")/gm, '') || "",
               }}
             />
           </div>
