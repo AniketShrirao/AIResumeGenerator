@@ -51,6 +51,8 @@ export default function Home() {
                 src="/images/board-img.png"
                 alt="App dashboard"
                 fill
+                priority
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 className="object-contain w-full h-full rounded-md"
               />
             </div>

@@ -1,7 +1,6 @@
 'use client';
 
 import React from "react";
-import { ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/lib/supabase/client";
@@ -9,8 +8,6 @@ import { useRouter } from 'next/navigation';
 
 const NavBar = () => {
   const supabase = createClient();
-  const router = useRouter();
-
   const handleSignIn = async () => {
     await supabase.auth.signInWithOAuth({
       provider: 'google',
@@ -18,12 +15,6 @@ const NavBar = () => {
         redirectTo: `${window.location.origin}/auth/callback`,
       },
     });
-  };
-
-  const handleSignOut = async () => {
-    await supabase.auth.signOut();
-    router.push('/');
-    router.refresh();
   };
 
   return (
