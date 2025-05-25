@@ -90,8 +90,16 @@ const SummaryForm = (props: { handleNext: () => void }) => {
       const PROMPT = prompt.replace("{jobTitle}", jobTitle);
       const result = await AIChatSession.sendMessage(PROMPT);
       const responseText = await result.response.text();
-      console.log(responseText);
-      setAiGeneratedSummary(JSON?.parse(responseText));
+      // Remove any potential whitespace and ensure we have valid JSON
+      const cleanedResponse = responseText.trim();
+      if (!cleanedResponse) {
+        throw new Error('Empty response from AI');
+      }
+      const parsedResponse = JSON.parse(cleanedResponse);
+      if (!parsedResponse) {
+        throw new Error('Invalid JSON response');
+      }
+      setAiGeneratedSummary(parsedResponse);
     } catch (error) {
       toast({
         title: "Failed to generate summary",
@@ -148,14 +156,21 @@ const SummaryForm = (props: { handleNext: () => void }) => {
             <div>
               <h5 className="font-semibold text-[15px] my-4">Suggestions</h5>
               {Object?.entries(aiGeneratedSummary)?.map(
-                ([experienceType, summary], index) => (
+                ([experienceType, summaryData], index) => {
+                  // Ensure we're accessing the correct property from the summary object
+                  const summaryText = typeof summaryData === 'object' && summaryData[index].summary
+                    ? summaryData[index].summary
+                    : typeof summaryData === 'string'
+                    ? summaryData
+                    : '';
+                  return (
                   <Card
                     role="button"
                     key={index}
                     className="my-4 bg-primary/5 shadow-none
                             border-primary/30
                           "
-                    onClick={() => handleSelect(summary)}
+                    onClick={() => handleSelect(summaryText)}
                   >
                     <CardHeader className="py-2">
                       <CardTitle className="font-semibold text-md">
@@ -164,10 +179,11 @@ const SummaryForm = (props: { handleNext: () => void }) => {
                       </CardTitle>
                     </CardHeader>
                     <CardContent className="text-sm">
-                      <p>{summary}</p>
+                      <p>{summaryText}</p>
                     </CardContent>
                   </Card>
-                )
+                  );
+                }
               )}
             </div>
           )}
