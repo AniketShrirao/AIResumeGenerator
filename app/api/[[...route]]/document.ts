@@ -10,7 +10,7 @@ import {
   updateCombinedSchema,
   UpdateDocumentSchema,
 } from "@/db/schema/document";
-import { getAuthUser } from "@/lib/kinde";
+import { getAuthUser } from "@/lib/supabase/middleware";
 import { generateDocUUID } from "@/lib/helper";
 import { db } from "@/db";
 import {

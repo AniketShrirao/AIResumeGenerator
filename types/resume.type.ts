@@ -3,8 +3,7 @@ export type ExperienceType = {
   docId?: number | null;
   title: string | null;
   companyName: string | null;
-  city: string | null;
-  state: string | null;
+  client: string | null;
   startDate: string | null;
   endDate?: string | null;
   currentlyWorking: boolean;
@@ -18,7 +17,7 @@ export type EducationType = {
   startDate: string | null;
   endDate: string | null;
   degree: string | null;
-  major: string | null;
+  cgpa: string | null;
   description: string | null;
 };
 
@@ -29,13 +28,15 @@ export type SkillType = {
   rating?: number;
 };
 
+export type SocialType = string[];
+
 export type PersonalInfoType = {
   id?: number;
   docId?: number | null;
   firstName?: string | null;
   lastName?: string | null;
   jobTitle?: string | null;
-  address?: string | null;
+  social?: SocialType | null;
   phone?: string | null;
   email?: string | null;
 };

@@ -21,9 +21,6 @@ const ResumePreview = () => {
         dark:border-b-gray-800 
         dark:border-x-gray-800
         `)}
-      style={{
-        borderTop: `13px solid ${resumeInfo?.themeColor}`,
-      }}
     >
       {/* {Personnal Info} */}
       <PersonalInfo isLoading={isLoading} resumeInfo={resumeInfo} />

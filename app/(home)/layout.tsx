@@ -1,17 +1,18 @@
 import React from "react";
-import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { redirect } from "next/navigation";
 import Header from "./_components/common/Header";
+import { createServerSupabaseClient } from "@/lib/supabase/server";
 
 const MainLayout = async ({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
-  const { isAuthenticated } = getKindeServerSession();
-  const isUserAuthenticated = await isAuthenticated();
 
-  if (!isUserAuthenticated) {
+  const supabase = createServerSupabaseClient();
+  const { data: { session } } = await supabase.auth.getSession();
+
+  if (!session) {
     redirect("/");
   }
   return (

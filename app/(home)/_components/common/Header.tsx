@@ -1,11 +1,7 @@
 "use client";
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import Link from "next/link";
 import { ChevronDown, Loader, Moon, Sun } from "lucide-react";
-import {
-  LogoutLink,
-  useKindeBrowserClient,
-} from "@kinde-oss/kinde-auth-nextjs";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,10 +11,43 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
+import { createClient } from '@/lib/supabase/client';
+import { User } from '@supabase/supabase-js';
 
 const Header = () => {
   const { setTheme } = useTheme();
-  const { user, isAuthenticated, isLoading, error } = useKindeBrowserClient();
+  const supabase = createClient();
+  const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
+
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        const { data: { user }, error } = await supabase.auth.getUser();
+        if (error) throw error;
+        setUser(user);
+      } catch (err) {
+        setError(err instanceof Error ? err : new Error('An error occurred'));
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    getUser();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, [supabase.auth]);
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    window.location.href = '/';
+  };
+
   return (
     <div
       className="shadow-sm w-full sticky
@@ -46,7 +75,7 @@ const Header = () => {
             </Link>
           </div>
 
-          {isAuthenticated && user ? (
+          {user ? (
             <div className="flex items-center gap-2">
               <span
                 className="font-normal
@@ -59,7 +88,7 @@ const Header = () => {
                 className="font-bold text-black 
               dark:text-primary-foreground"
               >
-                {user?.given_name} {user?.family_name}
+                {user.user_metadata?.full_name || user.email}
               </h5>
             </div>
           ) : null}
@@ -94,15 +123,14 @@ const Header = () => {
             />
           ) : (
             <Fragment>
-              {isAuthenticated && user ? (
+              {user ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger role="button">
                     <div className="flex items-center gap-1">
                       <Avatar role="button" className="!cursor-pointer">
-                        <AvatarImage src={user?.picture || ""} />
+                        <AvatarImage src={user.user_metadata?.avatar_url || ""} />
                         <AvatarFallback className="!cursor-pointer">
-                          {user?.given_name?.[0]}
-                          {user?.family_name?.[0]}
+                          {user.email?.[0]?.toUpperCase()}
                         </AvatarFallback>
                       </Avatar>
                       <ChevronDown size="17px" />
@@ -110,10 +138,10 @@ const Header = () => {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="my-3">
                     <DropdownMenuItem
-                      asChild
                       className="!text-red-500 !cursor-pointer font-medium"
+                      onClick={handleSignOut}
                     >
-                      <LogoutLink>Log out</LogoutLink>
+                      Log out
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>

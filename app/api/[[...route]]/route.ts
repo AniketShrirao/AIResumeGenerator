@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import { handle } from "hono/vercel";
 import { logger } from "hono/logger";
 import { HTTPException } from "hono/http-exception";
+import { cors } from "hono/cors";
 import documentRoute from "./document";
 
 export const runtime = "edge";
@@ -9,6 +10,12 @@ export const runtime = "edge";
 const app = new Hono();
 
 app.use("*", logger());
+
+// Configure CORS
+app.use("*", cors({
+  origin: ["http://localhost:3000", "https://resumegeneratorai.vercel.app"],
+  credentials: true,
+}));
 
 app.onError((err, c) => {
   if (err instanceof HTTPException) {

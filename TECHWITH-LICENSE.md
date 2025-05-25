@@ -1,4 +1,4 @@
-# Techwithemma License Terms
+# Aniket Shrirao License Terms
 
 ## License Requirement
 If you intend to generate revenue using our intellectual property, you are required to obtain a valid license. A free license is included when you purchase the codebase. Below are instances where a license is required:
@@ -25,7 +25,7 @@ By purchasing a license, you are granted a **non-exclusive, non-transferable** r
 ### Restrictions
 - You **may not** claim the code as your own.
 - You **may not** resell, distribute, or share the codebase with third parties.
-- You **may not** use the code to create tutorials, courses, or similar educational content based on Techwithemma’s projects without prior approval.
+- You **may not** use the code to create tutorials, courses, or similar educational content based on Aniket Shrirao's projects without prior approval.
 
 ## Scope of License
 Each license is applicable **only** to the specific project you have purchased. Purchasing a single license **does not** grant you rights to other projects, past or future.
@@ -34,9 +34,9 @@ Each license is applicable **only** to the specific project you have purchased. 
 You are prohibited from creating educational content (such as tutorials, courses, or SaaS-related guides) based on our projects without explicit written permission.
 
 ## Liability Disclaimer
-By using our codebase, you acknowledge that it was originally created as an educational project. The code is provided **as is**, and Techwithemma assumes no responsibility for its suitability in production environments. It is your responsibility to ensure that the project meets your technical and business requirements.
+By using our codebase, you acknowledge that it was originally created as an educational project. The code is provided **as is**, and Aniket Shrirao assumes no responsibility for its suitability in production environments. It is your responsibility to ensure that the project meets your technical and business requirements.
 
-Techwithemma is not liable for any damages, financial losses, or legal issues that arise from the use of this codebase.
+Aniket Shrirao is not liable for any damages, financial losses, or legal issues that arise from the use of this codebase.
 
 ## Non-Exclusive License
 Your license is non-exclusive, meaning other users may also purchase and utilize the same codebase under similar terms.
@@ -45,7 +45,7 @@ Your license is non-exclusive, meaning other users may also purchase and utilize
 Due to the nature of digital products, **all sales are final, and refunds are not provided**. Please ensure you have reviewed the project and its suitability before making a purchase.
 
 ## Third-Party Tools & Integrations
-You acknowledge that the project may include dependencies, third-party integrations, external packages, or assets. Techwithemma does not provide support for external dependencies, and it is your responsibility to comply with their respective licensing terms.
+You acknowledge that the project may include dependencies, third-party integrations, external packages, or assets. Aniket Shrirao does not provide support for external dependencies, and it is your responsibility to comply with their respective licensing terms.
 
 ## Agreement Acceptance
 By purchasing a license, you agree to all terms and conditions outlined in this agreement. These terms are legally binding and enforceable.

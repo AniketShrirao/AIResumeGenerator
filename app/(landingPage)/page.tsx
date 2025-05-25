@@ -1,5 +1,6 @@
+import { AuthButton } from "@/components/auth/auth-button";
 import { Button } from "@/components/ui/button";
-import { RegisterLink } from "@kinde-oss/kinde-auth-nextjs/components";
+
 import { ChevronRight, Video } from "lucide-react";
 import Image from "next/image";
 
@@ -34,7 +35,7 @@ export default function Home() {
             <br />
             <div className="flex items-center gap-2">
               <Button className="h-12 text-base font-medium min-w-32" asChild>
-                <RegisterLink>Get Started</RegisterLink>
+                <AuthButton>Get Started</AuthButton>
               </Button>
               <Button
                 variant="outline"

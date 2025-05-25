@@ -16,7 +16,7 @@ const initialState = {
   startDate: "",
   endDate: "",
   degree: "",
-  major: "",
+  cgpa: "",
   description: "",
 };
 
@@ -158,12 +158,12 @@ const EducationForm = (props: { handleNext: () => void }) => {
                   />
                 </div>
                 <div>
-                  <Label className="text-sm">Major</Label>
+                  <Label className="text-sm">CGPA</Label>
                   <Input
-                    name="major"
+                    name="cgpa"
                     placeholder=""
                     required
-                    value={item?.major || ""}
+                    value={item?.cgpa || ""}
                     onChange={(e) => handleChange(e, index)}
                   />
                 </div>
@@ -173,7 +173,6 @@ const EducationForm = (props: { handleNext: () => void }) => {
                     name="startDate"
                     type="date"
                     placeholder=""
-                    required
                     value={item?.startDate || ""}
                     onChange={(e) => handleChange(e, index)}
                   />
@@ -184,7 +183,6 @@ const EducationForm = (props: { handleNext: () => void }) => {
                     name="endDate"
                     type="date"
                     placeholder=""
-                    required
                     value={item?.endDate || ""}
                     onChange={(e) => handleChange(e, index)}
                   />
@@ -194,7 +192,6 @@ const EducationForm = (props: { handleNext: () => void }) => {
                   <Textarea
                     name="description"
                     placeholder=""
-                    required
                     value={item.description || ""}
                     onChange={(e) => handleChange(e, index)}
                   />

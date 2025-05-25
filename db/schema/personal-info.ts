@@ -1,4 +1,4 @@
-import { integer, pgTable, serial, varchar } from "drizzle-orm/pg-core";
+import { integer, pgTable, serial, text, varchar } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { documentTable } from "./document";
 import { relations } from "drizzle-orm";
@@ -12,7 +12,7 @@ export const personalInfoTable = pgTable("personal_info", {
   firstName: varchar("first_name", { length: 255 }),
   lastName: varchar("last_name", { length: 255 }),
   jobTitle: varchar("job_title", { length: 255 }),
-  address: varchar("address", { length: 500 }),
+  social: text("social").array(),
   phone: varchar("phone", { length: 50 }),
   email: varchar("email", { length: 255 }),
 });
@@ -29,12 +29,13 @@ export const personalInfoRelations = relations(
 
 export const personalInfoTableSchema = createInsertSchema(personalInfoTable, {
   id: z.number().optional(),
+  social: z.array(z.string()).optional(),
 }).pick({
   id: true,
   firstName: true,
   lastName: true,
   jobTitle: true,
-  address: true,
+  social: true,
   phone: true,
   email: true,
 });

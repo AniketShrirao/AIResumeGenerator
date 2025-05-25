@@ -1,17 +1,17 @@
 import React from "react";
-import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { redirect } from "next/navigation";
 import NavBar from "@/components/nav-bar";
+import { createServerSupabaseClient } from "@/lib/supabase/server";
 
 const LandingLayout = async ({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
-  const { isAuthenticated } = getKindeServerSession();
-  const isUserAuthenticated = await isAuthenticated();
+  const supabase = createServerSupabaseClient();
+  const { data: { session } } = await supabase.auth.getSession();
 
-  if (isUserAuthenticated) {
+  if (session) {
     redirect("/dashboard");
   }
   return (

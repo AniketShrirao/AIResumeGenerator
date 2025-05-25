@@ -1,12 +1,13 @@
 {
-  "name": "resume-builder",
+  "name": "aniket-resume-builder",
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "start": "next dev && npx drizzle-kit studio",
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
     "lint": "next lint",
+    "drizzle": "npx drizzle-kit studio",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push"
@@ -15,7 +16,7 @@
     "@google/generative-ai": "^0.21.0",
     "@hono/zod-validator": "^0.4.1",
     "@hookform/resolvers": "^3.9.0",
-    "@kinde-oss/kinde-auth-nextjs": "^2.3.11",
+    "@neondatabase/serverless": "^1.0.0",
     "@radix-ui/react-avatar": "^1.1.1",
     "@radix-ui/react-dialog": "^1.1.2",
     "@radix-ui/react-dropdown-menu": "^2.1.2",
@@ -25,6 +26,8 @@
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-toast": "^1.2.2",
     "@smastrom/react-rating": "^1.5.0",
+    "@supabase/ssr": "^0.6.1",
+    "@supabase/supabase-js": "^2.49.8",
     "@tanstack/react-query": "^5.59.15",
     "@vercel/postgres": "^0.10.0",
     "class-variance-authority": "^0.7.0",

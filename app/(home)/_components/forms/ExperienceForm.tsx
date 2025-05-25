@@ -14,12 +14,15 @@ const initialState = {
   docId: undefined,
   title: "",
   companyName: "",
-  city: "",
-  state: "",
+  client: "",
   startDate: "",
   endDate: "",
   workSummary: "",
   currentlyWorking: false,
+};
+
+const getDocId = (resumeInfo: any) => {
+  return resumeInfo?.id;
 };
 
 const ExperienceForm = (props: { handleNext: () => void }) => {
@@ -88,11 +91,28 @@ const ExperienceForm = (props: { handleNext: () => void }) => {
         ? resumeInfo.currentPosition + 1
         : 1;
 
+      const docId = getDocId(resumeInfo);
+      const updatedExperienceList = experienceList.map((exp,index) => {
+        // Format dates to ensure they're valid or null
+        const startDate = exp.startDate ? new Date(exp.startDate).toISOString().split('T')[0] : null;
+        const endDate = exp.endDate ? new Date(exp.endDate).toISOString().split('T')[0] : null;
+        
+        return {
+          ...exp,
+          id: index + 1,
+          docId: docId,
+          startDate,
+          endDate
+        };
+      });
+
+      console.log("updatedExperienceList", updatedExperienceList);
+
       await mutateAsync(
         {
           currentPosition: currentNo,
           thumbnail: thumbnail,
-          experience: experienceList,
+          experience: updatedExperienceList,
         },
         {
           onSuccess: () => {
@@ -154,7 +174,6 @@ const ExperienceForm = (props: { handleNext: () => void }) => {
                   <Input
                     name="title"
                     placeholder=""
-                    required
                     value={item?.title || ""}
                     onChange={(e) => handleChange(e, index)}
                   />
@@ -165,30 +184,18 @@ const ExperienceForm = (props: { handleNext: () => void }) => {
                   <Input
                     name="companyName"
                     placeholder=""
-                    required
                     value={item?.companyName || ""}
                     onChange={(e) => handleChange(e, index)}
                   />
                 </div>
 
                 <div>
-                  <Label className="text-sm">City</Label>
+                  <Label className="text-sm">Client</Label>
                   <Input
-                    name="city"
+                    name="client"
                     placeholder=""
                     required
-                    value={item?.city || ""}
-                    onChange={(e) => handleChange(e, index)}
-                  />
-                </div>
-
-                <div>
-                  <Label className="text-sm">State</Label>
-                  <Input
-                    name="state"
-                    placeholder=""
-                    required
-                    value={item?.state || ""}
+                    value={item?.client || ""}
                     onChange={(e) => handleChange(e, index)}
                   />
                 </div>
@@ -199,7 +206,6 @@ const ExperienceForm = (props: { handleNext: () => void }) => {
                     name="startDate"
                     type="date"
                     placeholder=""
-                    required
                     value={item?.startDate || ""}
                     onChange={(e) => handleChange(e, index)}
                   />
@@ -211,7 +217,6 @@ const ExperienceForm = (props: { handleNext: () => void }) => {
                     name="endDate"
                     type="date"
                     placeholder=""
-                    required
                     value={item?.endDate || ""}
                     onChange={(e) => handleChange(e, index)}
                   />

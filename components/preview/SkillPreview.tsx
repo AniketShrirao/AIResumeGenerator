@@ -16,14 +16,6 @@ const SkillPreview: FC<PropsType> = ({ resumeInfo, isLoading }) => {
   }
   return (
     <div className="w-full my-5">
-      <h5
-        className="text-center font-bold
-      mb-2
-      "
-        style={{ color: themeColor }}
-      >
-        Skills
-      </h5>
       <hr
         className="
           border-[1.5px] my-2
@@ -32,6 +24,15 @@ const SkillPreview: FC<PropsType> = ({ resumeInfo, isLoading }) => {
           borderColor: themeColor,
         }}
       />
+
+      <h5
+        className="text-left font-bold
+      mb-4
+      "
+        style={{ color: themeColor }}
+      >
+        Skills
+      </h5>
 
       <div
         className="grid grid-cols-2  gap-3

@@ -16,14 +16,6 @@ const EducationPreview: FC<PropsType> = ({ resumeInfo, isLoading }) => {
   }
   return (
     <div className="w-full my-5">
-      <h5
-        className="text-center font-bold
-      mb-2
-      "
-        style={{ color: themeColor }}
-      >
-        Education
-      </h5>
       <hr
         className="
           border-[1.5px] my-2
@@ -32,6 +24,14 @@ const EducationPreview: FC<PropsType> = ({ resumeInfo, isLoading }) => {
           borderColor: themeColor,
         }}
       />
+      <h5
+        className="text-left font-bold
+      mb-4
+      "
+        style={{ color: themeColor }}
+      >
+        Education
+      </h5>
 
       <div className="flex flex-col gap-2 min-h-9">
         {resumeInfo?.educations?.map((education, index) => (
@@ -42,8 +42,8 @@ const EducationPreview: FC<PropsType> = ({ resumeInfo, isLoading }) => {
             <div className="flex items-start justify-between">
               <h5 className="text-[13px]">
                 {education?.degree}
-                {education?.degree && education?.major && " in "}
-                {education?.major}
+                {education?.degree && education?.cgpa && " in "}
+               <span className="font-bold"> {education?.cgpa} </span>
               </h5>
               <span className="text-[13px]">
                 {education?.startDate}

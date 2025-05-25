@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from "react";
 import { Loader } from "lucide-react";
 import { useResumeContext } from "@/context/resume-info-provider";
-import { PersonalInfoType } from "@/types/resume.type";
+import { PersonalInfoType, ResumeDataType } from "@/types/resume.type";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -15,7 +15,7 @@ const initialState = {
   firstName: "",
   lastName: "",
   jobTitle: "",
-  address: "",
+  social: [],
   phone: "",
   email: "",
 };
@@ -43,20 +43,68 @@ const PersonalInfoForm = (props: { handleNext: () => void }) => {
     (e: { target: { name: string; value: string } }) => {
       const { name, value } = e.target;
 
-      setPersonalInfo({ ...personalInfo, [name]: value });
+      if (name === "linkedin" || name === "github" || name === "website") {
+        const socialIndex = personalInfo.social?.findIndex(url => 
+          url.startsWith(`${name}:`) || 
+          (name === "linkedin" && url.includes("linkedin.com")) ||
+          (name === "github" && url.includes("github.com")) ||
+          (name === "website" && !url.includes("linkedin.com") && !url.includes("github.com"))
+        ) ?? -1;
 
-      if (!resumeInfo) return;
+        let newSocial = [...(personalInfo.social || [])];
+        const formattedValue = value ? `${name}:${value}` : "";
 
-      onUpdate({
-        ...resumeInfo,
-        personalInfo: {
-          ...resumeInfo.personalInfo,
-          [name]: value,
-        },
-      });
+        if (socialIndex >= 0) {
+          if (value) {
+            newSocial[socialIndex] = formattedValue;
+          } else {
+            newSocial.splice(socialIndex, 1);
+          }
+        } else if (value) {
+          newSocial.push(formattedValue);
+        }
+
+        setPersonalInfo({
+          ...personalInfo,
+          social: newSocial
+        });
+
+        if (!resumeInfo) return;
+        const updatedPersonalInfo = {
+          ...resumeInfo,
+          personalInfo: {
+            ...resumeInfo.personalInfo,
+            social: newSocial
+          }
+        };
+        onUpdate(updatedPersonalInfo);
+      } else {
+        setPersonalInfo({ ...personalInfo, [name]: value });
+
+        if (!resumeInfo) return;
+        const updatedPersonalInfo = {
+          ...resumeInfo,
+          personalInfo: {
+            ...resumeInfo.personalInfo,
+            [name]: value
+          }
+        };
+        onUpdate(updatedPersonalInfo);
+      }
     },
-    [resumeInfo, onUpdate]
+    [resumeInfo, onUpdate, personalInfo]
   );
+
+  const getSocialValue = (type: string) => {
+    const social = personalInfo.social || [];
+    const link = social.find(url => 
+      url.startsWith(`${type}:`) || 
+      (type === "linkedin" && url.includes("linkedin.com")) ||
+      (type === "github" && url.includes("github.com")) ||
+      (type === "website" && !url.includes("linkedin.com") && !url.includes("github.com"))
+    );
+    return link ? link.split(`${type}:`)[1] || link : "";
+  };
 
   const handleSubmit = useCallback(
     async (e: { preventDefault: () => void }) => {
@@ -142,14 +190,33 @@ const PersonalInfoForm = (props: { handleNext: () => void }) => {
                 onChange={handleChange}
               />
             </div>
-            <div className="col-span-2">
-              <Label className="text-sm">Address</Label>
+            <div>
+              <Label className="text-sm">LinkedIn</Label>
               <Input
-                name="address"
-                required
+                name="linkedin"
                 autoComplete="off"
-                placeholder=""
-                value={personalInfo?.address || ""}
+                placeholder="Your LinkedIn profile URL"
+                value={getSocialValue("linkedin")}
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <Label className="text-sm">GitHub</Label>
+              <Input
+                name="github"
+                autoComplete="off"
+                placeholder="Your GitHub profile URL"
+                value={getSocialValue("github")}
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <Label className="text-sm">Website</Label>
+              <Input
+                name="website"
+                autoComplete="off"
+                placeholder="Your personal website URL"
+                value={getSocialValue("website")}
                 onChange={handleChange}
               />
             </div>
@@ -168,6 +235,7 @@ const PersonalInfoForm = (props: { handleNext: () => void }) => {
               <Label className="text-sm">Email</Label>
               <Input
                 name="email"
+                type="email"
                 required
                 autoComplete="off"
                 placeholder=""
@@ -176,17 +244,15 @@ const PersonalInfoForm = (props: { handleNext: () => void }) => {
               />
             </div>
           </div>
-
-          <Button
-            className="mt-4"
-            type="submit"
-            disabled={
-              isPending || resumeInfo?.status === "archived" ? true : false
-            }
-          >
-            {isPending && <Loader size="15px" className="animate-spin" />}
-            Save Changes
-          </Button>
+          <div className="flex justify-end mt-4">
+            <Button
+              type="submit"
+              className="bg-primary hover:bg-primary/80"
+              disabled={isPending}>
+              {isPending && <Loader className="mr-2 h-4 w-4 animate-spin" />}
+              Next
+            </Button>
+          </div>
         </form>
       </div>
     </div>
